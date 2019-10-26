@@ -1,10 +1,14 @@
 import os
+import time
 
+import sqlalchemy as db
 from bs4 import BeautifulSoup
 import requests
 import argparse
 
 from pipe import sort, select, Pipe
+
+from service.db_access import MyDb
 
 
 @Pipe
@@ -17,6 +21,7 @@ def get_prices(pages):
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/39.0.2171.95 Safari/537.36'}
     results = []
+    date = time.time()
     for p in pages:
         resp = requests.get(p["url"], headers=headers)
         soup = BeautifulSoup(resp.text, features="html.parser")
@@ -26,7 +31,8 @@ def get_prices(pages):
             "url": p["url"],
             "size": p["size"],
             "price": price,
-            "name": name
+            "name": name,
+            "date": date,
         })
     return results
 
@@ -37,7 +43,10 @@ def main():
     args = parser.parse_args()
     from service.pages import pages
     prices = get_prices(pages)
-    write_to_file(args.output_file, prices)
+    db = MyDb()
+    db.save_rows(prices)
+    db.show_all_rows()
+    # write_to_file(args.output_file, prices)
 
 
 def write_to_file(output_file, prices):
