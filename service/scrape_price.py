@@ -1,14 +1,12 @@
 import os
 import time
 
-import sqlalchemy as db
 from bs4 import BeautifulSoup
 import requests
-import argparse
 
 from pipe import sort, select, Pipe
 
-from service.db_access import MyDb
+from .db_access import MyDb
 
 
 @Pipe
@@ -38,9 +36,6 @@ def get_prices(pages):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("output_file")
-    args = parser.parse_args()
     from service.pages import pages
     prices = get_prices(pages)
     db = MyDb()
