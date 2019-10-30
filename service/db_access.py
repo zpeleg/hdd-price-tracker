@@ -1,10 +1,12 @@
+import pathlib
 import sqlite3
 from pprint import pprint
 
 
 class MyDb(object):
-    def __init__(self):
-        self.db = sqlite3.connect('history.db')
+    def __init__(self, data_dir):
+        path = pathlib.Path(data_dir).joinpath("database.db")
+        self.db = sqlite3.connect(str(path.absolute()))
 
     def _table_exists(self, table_name):
         cursor = self.db.cursor()

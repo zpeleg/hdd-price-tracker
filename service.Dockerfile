@@ -6,4 +6,4 @@ RUN apt-get update
 RUN apt-get install vim -y
 
 ADD . /app/
-CMD ["python", "-m", "service.scrape_price"]
+CMD ["python", "-m", "service.scrape_price", "/app/data"]

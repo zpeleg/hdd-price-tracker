@@ -1,5 +1,6 @@
 import os
 import time
+from argparse import ArgumentParser
 
 from bs4 import BeautifulSoup
 import requests
@@ -36,12 +37,14 @@ def get_prices(pages):
 
 
 def main():
+    parser = ArgumentParser()
+    parser.add_argument("db_path")
+    args = parser.parse_args()
     from .pages import pages
     prices = get_prices(pages)
-    db = MyDb()
+    db = MyDb(args.db_path)
     db.save_rows(prices)
     db.show_all_rows()
-    # write_to_file(args.output_file, prices)
 
 
 def write_to_file(output_file, prices):
