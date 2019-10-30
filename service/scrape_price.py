@@ -36,7 +36,7 @@ def get_prices(pages):
 
 
 def main():
-    from service.pages import pages
+    from .pages import pages
     prices = get_prices(pages)
     db = MyDb()
     db.save_rows(prices)
