@@ -1,6 +1,3 @@
-#!/bin/bash
-app="docker.test"
-docker build -t ${app} .
-docker run -d -p 56733:80 \
-  --name=${app} \
-  -v $PWD:/app ${app}
+#!/usr/bin/env bash
+service nginx start
+uwsgi --ini uwsgi.ini
