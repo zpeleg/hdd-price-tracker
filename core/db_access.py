@@ -41,3 +41,8 @@ class MyDb(object):
         cursor = self.db.cursor()
         cursor.execute("""SELECT * FROM price_history""")
         pprint(cursor.fetchall())
+
+    def get_all_rows(self):
+        cursor = self.db.cursor()
+        cursor.execute("""SELECT * FROM price_history""")
+        return cursor.fetchall()
