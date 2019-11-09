@@ -7,7 +7,8 @@ import requests
 
 from pipe import sort, select, Pipe
 
-from .db_access import MyDb
+# from core.db_access import MyDb
+from ..core.db_access import MyDb
 
 
 @Pipe
