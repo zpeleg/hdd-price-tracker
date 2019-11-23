@@ -47,7 +47,11 @@ class MyDb(object):
         cursor.execute("""SELECT * FROM price_history""")
         return cursor.fetchall()
 
-    def execute_query(self, query):
+    def execute_query(self, query, keys=()):
         cursor = self.db.cursor()
         cursor.execute(query)
-        return cursor.fetchall()
+        if not keys:
+            return cursor.fetchall()
+        else:
+            row_dicts = [{key: row[i] for i, key in enumerate(keys)} for row in cursor.fetchall()]
+            return row_dicts
