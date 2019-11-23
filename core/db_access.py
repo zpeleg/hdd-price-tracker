@@ -46,3 +46,8 @@ class MyDb(object):
         cursor = self.db.cursor()
         cursor.execute("""SELECT * FROM price_history""")
         return cursor.fetchall()
+
+    def execute_query(self, query):
+        cursor = self.db.cursor()
+        cursor.execute(query)
+        return cursor.fetchall()

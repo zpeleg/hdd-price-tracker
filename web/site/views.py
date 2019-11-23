@@ -15,6 +15,19 @@ def table():
     return render_template("home.html", rows=db.get_all_rows())
 
 
+@app.route("/best")
+def best():
+    db = MyDb("/app/data")
+    best_price_ever = db.execute_query("""select url, size, price, name, date, a.minprice from price_history 
+inner join (
+SELECT min(price/size) as minprice from price_history
+) a
+where price/size=a.minprice""")
+    r = best_price_ever[0]
+    url, size, price, name, date, minprice = r
+    return render_template("best.html", bestprice=minprice, date=date, link=url, drivename=name)
+
+
 @app.route('/simple')
 def aaaa():
     return u"AMAZING !!! 🤷"
